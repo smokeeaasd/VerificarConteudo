@@ -12,8 +12,8 @@ namespace VerificarConteudo
 {
     class Program
     {
-        static string subscriptionKey = "797c210e2b5d4269bf977f6475bef651";
-        static string endpoint = "https://verificar.cognitiveservices.azure.com/";
+        static string subscriptionKey = "subscription key";
+        static string endpoint = "endpoint"
 
         static void Main(string[] args)
         {
