@@ -1,69 +1,35 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using System.Threading.Tasks;
 using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Linq;
-
+using static VerificarConteudo.Verificar;
+using static System.Console;
 namespace VerificarConteudo
 {
     class Program
     {
-        // Add your Computer Vision subscription key and endpoint
-        static string subscriptionKey = "your subscription key";
-        static string endpoint = "endpoint";
-
-        private const string ANALYZE_URL_IMAGE = "url";
+        static string subscriptionKey = "797c210e2b5d4269bf977f6475bef651";
+        static string endpoint = "https://verificar.cognitiveservices.azure.com/";
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Azure Cognitive Services Computer Vision - .NET");
-            Console.WriteLine();
+            ComputerVisionClient client = Autenticar(endpoint, subscriptionKey);
 
-            // Criando um cliente
-            ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
+            WriteLine("verificar se a imagem é conteudo adulto");
 
-            // Analyze an image to get features and other properties.
-            AnalyzeImageUrl(client, ANALYZE_URL_IMAGE).Wait();
+            Write("insira o link da imagem: ");
+            string IMAGE_URL = ReadLine();
+            
 
-            Console.ReadKey();
-        }
-        public static ComputerVisionClient Authenticate(string endpoint, string key)
-        {
-            ComputerVisionClient client =
-              new ComputerVisionClient(new ApiKeyServiceClientCredentials(key))
-              { Endpoint = endpoint };
-            return client;
-        }
+            Task<bool> res = AnalisarImagem(client, IMAGE_URL);
 
-        public static async Task AnalyzeImageUrl(ComputerVisionClient client, string imageUrl)
-        {
-            Console.WriteLine("----------------------------------------------------------");
-            Console.WriteLine("Analisando imagem - URL");
-            Console.WriteLine();
+            WriteLine(res.Result);
 
-            // Creating a list that defines the features to be extracted from the image. 
-
-            List<VisualFeatureTypes?> features = new List<VisualFeatureTypes?>()
-            {
-                VisualFeatureTypes.Tags,
-                VisualFeatureTypes.Categories,
-                VisualFeatureTypes.Adult
-            };
-
-            Console.WriteLine($"Analisando a imagem: {Path.GetFileName(imageUrl)}...");
-            Console.WriteLine();
-            // Analisando a imagem da URL
-            ImageAnalysis res = await client.AnalyzeImageAsync(imageUrl, visualFeatures: features);
-
-            if (res.Adult.IsAdultContent)
-                Console.WriteLine("Conteúdo adulto.");
-            else
-                Console.WriteLine("Não é conteúdo adulto.");
+            ReadKey();
         }
     }
 }
