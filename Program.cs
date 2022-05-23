@@ -17,8 +17,7 @@ namespace VerificarConteudo
         static string subscriptionKey = "your subscription key";
         static string endpoint = "endpoint";
 
-        // URL image used for analyzing an image (image of puppy)
-        private const string ANALYZE_URL_IMAGE = "analyse url image";
+        private const string ANALYZE_URL_IMAGE = "url";
 
         static void Main(string[] args)
         {
