@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
 using System.Linq;
+
 using static VerificarConteudo.Verificar;
 using static System.Console;
+
 namespace VerificarConteudo
 {
     class Program
